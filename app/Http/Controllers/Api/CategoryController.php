@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function index(): JsonResponse {
+        $categories = Category::latest()->get();
+
+        return response()->json([
+            'category' => $categories,
+        ], 200);
+    }
+
     public function store(Request $request): JsonResponse {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
