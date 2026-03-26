@@ -51,4 +51,12 @@ class CategoryController extends Controller
             'category' => $category
         ], 200);
     }
+
+    public function destroy(Category $category): JsonResponse {
+        $category->delete();
+
+        return response()->json([
+            'message' => 'Category deleted successfully.',
+        ], 200);
+    }
 }
