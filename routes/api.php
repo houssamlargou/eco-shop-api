@@ -16,4 +16,5 @@ Route::get('/admin-test', function() {
 })->middleware(['auth:sanctum', 'admin']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store'])->middleware(['auth:sanctum','admin']);
+Route::put('/categories/{category}', [CategoryController::class, 'update'])->middleware(['auth:sanctum','admin']);
 

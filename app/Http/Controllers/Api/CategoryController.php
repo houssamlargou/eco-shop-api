@@ -13,7 +13,7 @@ class CategoryController extends Controller
         $categories = Category::latest()->get();
 
         return response()->json([
-            'category' => $categories,
+            'categories' => $categories,
         ], 200);
     }
 
@@ -31,7 +31,24 @@ class CategoryController extends Controller
 
         return response()->json([
             'message' => 'Category created successfully.',
-            'category' => $category,
+            'category' => $category->fresh(),
         ], 201);
+    }
+
+    public function update(Request $request,Category $category): JsonResponse {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:categories,name,' . $category->id],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $category->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'message' => 'Category updated successfully.',
+            'category' => $category
+        ], 200);
     }
 }
