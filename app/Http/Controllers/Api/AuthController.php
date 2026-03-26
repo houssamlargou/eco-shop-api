@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -31,5 +32,27 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ], 201);
+    }
+
+    public function login(Request $request): JsonResponse {
+        $validated = $request->validate([
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if(!Auth::attempt($validated)) {
+            return response()->json([
+                'message' => 'Invalid credentials.',
+            ],401);
+        }
+
+        $user = User::where('email', $validated['email'])->first();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'User logged in successfully.',
+            'user'=>$user,
+            'token'=>$token,
+        ],200);
     }
 }
