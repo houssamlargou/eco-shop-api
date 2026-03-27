@@ -23,5 +23,5 @@ Route::post('/products', [ProductController::class, 'store'])->middleware(['auth
 Route::get('/products',[ProductController::class,'index']);
 Route::get('/products/{product}', [ProductController::class,'show']); 
 Route::put('/products/{product}',[ProductController::class,'update'])->middleware(['auth:sanctum','admin']);
-
+Route::delete('/products/{product}',[ProductController::class,'destroy'])->middleware(['auth:sanctum','admin']);
 
