@@ -98,4 +98,12 @@ class ProductController extends Controller
             'product' => $product->load('category'),
         ],200);
     }
+
+    public function destroy(Product $product): JsonResponse {
+        $product->delete();
+
+         return response()->json([
+            'message' => 'product deleted successfully.',
+        ], 200);
+    }
 }
