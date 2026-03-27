@@ -10,6 +10,17 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function index(): JsonResponse {
+        $products = Product::with('category')
+                         ->where('is_active', true)
+                         ->latest()
+                         ->get();
+                    
+                    return response()->json([
+                        'products' => $products,
+                    ],200);
+    }
+
     public function store(Request $request): JsonResponse {
         $validated = $request->validate([
             'category_id' => ['required','integer','exists:categories,id'],
