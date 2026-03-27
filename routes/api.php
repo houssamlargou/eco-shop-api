@@ -20,5 +20,6 @@ Route::post('/categories', [CategoryController::class, 'store'])->middleware(['a
 Route::put('/categories/{category}', [CategoryController::class, 'update'])->middleware(['auth:sanctum','admin']);
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->middleware(['auth:sanctum', 'admin']);
 Route::post('/products', [ProductController::class, 'store'])->middleware(['auth:sanctum','admin']);
+Route::get('/products',[ProductController::class,'index']); 
 
 
