@@ -22,5 +22,6 @@ Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])-
 Route::post('/products', [ProductController::class, 'store'])->middleware(['auth:sanctum','admin']);
 Route::get('/products',[ProductController::class,'index']);
 Route::get('/products/{product}', [ProductController::class,'show']); 
+Route::put('/products/{product}',[ProductController::class,'update'])->middleware(['auth:sanctum','admin']);
 
 
