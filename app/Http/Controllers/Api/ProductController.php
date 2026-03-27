@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
@@ -16,9 +17,21 @@ class ProductController extends Controller
                          ->latest()
                          ->get();
                     
-                    return response()->json([
-                        'products' => $products,
-                    ],200);
+        return response()->json([
+            'products' => $products,
+        ],200);
+    }
+
+    public function show(Product $product): JsonResponse {
+        if(!$product->is_active){
+            throw new NotFoundHttpException('Product not found.');
+        }
+
+        $product->load('category');
+
+        return response()->json([
+            'product' => $product,
+        ],200);
     }
 
     public function store(Request $request): JsonResponse {
