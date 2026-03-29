@@ -110,7 +110,7 @@ class CartController extends Controller
 
         if($validate['quantity'] > $cartItem->product->stock) {
             return response()->json([
-                'message' => 'Requested quantity exceeds availble stock',
+                'message' => 'Requested quantity exceeds availbe stock',
             ],422);
         }
 
@@ -129,7 +129,7 @@ class CartController extends Controller
 
         if($cartItem->cart->user_id !== $user->id) {
             return response()->json([
-                'message' => 'You are nor allowed to remove this cart item.',
+                'message' => 'You are not allowed to remove this cart item.',
             ],403);
         }
 
