@@ -65,9 +65,33 @@ class CartController extends Controller
             ],200);
         }
 
+        $items = $cart->items->map(function($item){
+            $price = (float) $item->product->price;
+            $subtotal = round($price * $item->quantity,2);
+
+            return [
+                'id' => $item->id,
+                'cart_id' => $item->cart_id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'subtotal' => $subtotal,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+                'product' => $item->product,
+            ];
+        });
+
+        $total = round($items->sum('subtotal'),2);
+
         return response()->json([
             'message' => 'Cart retrieved successfully.',
-            'cart' => $cart,
+            'cart' => [
+                'id' => $cart->id,
+                'user_id' => $cart->user_id,
+                'created_at' => $cart->created_at,
+                'items' => $items,
+                'total' => $total,
+            ],
         ],200);
     }
 
