@@ -28,4 +28,5 @@ Route::delete('/products/{product}',[ProductController::class,'destroy'])->middl
 Route::post('/cart/items',[CartController::class,'addItem'])->middleware('auth:sanctum');
 Route::get('/cart',[CartController::class,'show'])->middleware('auth:sanctum');
 Route::put('/cart/items/{cartItem}',[CartController::class,'updateItemQuantity'])->middleware('auth:sanctum');
+Route::delete('/cart/items/{cartItem}',[CartController::class,'removeItem'])->middleware('auth:sanctum');
 

@@ -99,4 +99,20 @@ class CartController extends Controller
             'cart_item' => $cartItem->load('product')
         ],200);
     }
+
+    public function removeItem(Request $request, CartItem $cartItem): JsonResponse {
+        $user = $request->user();
+
+        if($cartItem->cart->user_id !== $user->id) {
+            return response()->json([
+                'message' => 'You are nor allowed to remove this cart item.',
+            ],403);
+        }
+
+        $cartItem->delete();
+
+        return response()->json([
+            'message' => 'Cart item removed successfully.'
+        ],200);
+    }
 }
