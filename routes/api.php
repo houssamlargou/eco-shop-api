@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\CartController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -24,4 +25,5 @@ Route::get('/products',[ProductController::class,'index']);
 Route::get('/products/{product}', [ProductController::class,'show']); 
 Route::put('/products/{product}',[ProductController::class,'update'])->middleware(['auth:sanctum','admin']);
 Route::delete('/products/{product}',[ProductController::class,'destroy'])->middleware(['auth:sanctum','admin']);
+Route::post('/cart/items',[CartController::class,'addItem'])->middleware('auth:sanctum');
 
