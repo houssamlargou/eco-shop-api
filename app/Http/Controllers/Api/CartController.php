@@ -51,4 +51,23 @@ class CartController extends Controller
             'cart_item' => $cartItem->load('product'),
         ],201);
     }
+
+    public function show(Request $request): JsonResponse {
+        $user = $request->user();
+
+        $cart = Cart::with(['items.product'])->where('user_id',$user->id)->first();
+
+        if(!$cart) {
+            return response()->json([
+                'message' => 'Cart is empty.',
+                'cart' => null,
+                'items' => [],
+            ],200);
+        }
+
+        return response()->json([
+            'message' => 'Cart retrieved successfully.',
+            'cart' => $cart,
+        ],200);
+    }
 }
