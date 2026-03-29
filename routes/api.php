@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\OrderController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,3 +30,4 @@ Route::post('/cart/items',[CartController::class,'addItem'])->middleware('auth:s
 Route::get('/cart',[CartController::class,'show'])->middleware('auth:sanctum');
 Route::put('/cart/items/{cartItem}',[CartController::class,'updateItemQuantity'])->middleware('auth:sanctum');
 Route::delete('/cart/items/{cartItem}',[CartController::class,'removeItem'])->middleware('auth:sanctum');
+Route::post('/checkout',[OrderController::class,'checkout'])->middleware('auth:sanctum');
