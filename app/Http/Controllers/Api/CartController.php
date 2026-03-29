@@ -70,4 +70,33 @@ class CartController extends Controller
             'cart' => $cart,
         ],200);
     }
+
+    public function updateItemQuantity(Request $request, CartItem $cartItem): JsonResponse {
+        $validate = $request->validate([
+            'quantity' => ['required','integer','min:1'],
+        ]);
+
+        $user = $request->user();
+
+        if($cartItem->cart->user_id !== $user->id) {
+            return response()->json([
+                'message' => 'You are not allowed to update this cart item.'
+            ],403);
+        }
+
+        if($validate['quantity'] > $cartItem->product->stock) {
+            return response()->json([
+                'message' => 'Requested quantity exceeds availble stock',
+            ],422);
+        }
+
+        $cartItem->update([
+            'quantity' => $validate['quantity'],
+        ]);
+
+        return response()->json([
+            'message' => 'Cart item quantity updated successfully.',
+            'cart_item' => $cartItem->load('product')
+        ],200);
+    }
 }
