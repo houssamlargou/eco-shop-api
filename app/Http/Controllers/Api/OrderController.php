@@ -12,6 +12,17 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function index(Request $request): JsonResponse {
+        $user = $request->user();
+
+        $orders = Order::where('user_id',$user->id)->latest()->get();
+
+        return response()->json([
+            'message' => 'Order history retrieved successfully.',
+            'order' => $orders
+        ],200);
+    }
+
     public function checkout(Request $request): JsonResponse {
         $user = $request->user();
 

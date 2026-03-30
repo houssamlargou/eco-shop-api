@@ -31,3 +31,4 @@ Route::get('/cart',[CartController::class,'show'])->middleware('auth:sanctum');
 Route::put('/cart/items/{cartItem}',[CartController::class,'updateItemQuantity'])->middleware('auth:sanctum');
 Route::delete('/cart/items/{cartItem}',[CartController::class,'removeItem'])->middleware('auth:sanctum');
 Route::post('/checkout',[OrderController::class,'checkout'])->middleware('auth:sanctum');
+Route::get('/orders',[OrderController::class,'index'])->middleware('auth:sanctum'); 
