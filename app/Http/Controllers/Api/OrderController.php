@@ -39,7 +39,21 @@ class OrderController extends Controller
             'order' => $order,
         ], 200);
 
-     
+    }
+
+    public function updateStatus(Request $request, Order $order) {
+        $validated = $request->validate([
+            'status' => ['required', 'string', 'in:pending,paid,shipped,cancelled'],
+        ]);
+
+        $order->update([
+            'status' => $validated['status'],
+        ]);
+
+        return response()->json([
+            'message' => 'Order status updated successfully.',
+            'order' => $order->load('items'),
+        ],200);
     }
 
     public function checkout(Request $request): JsonResponse {
