@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -61,6 +62,25 @@ class AuthController extends Controller
         return response()->json([
             'user' => $request->user(),
         ], 200);
+    }
+
+    public function updateProfile(Request $request): JsonResponse {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'name' => ['required','string','max:255'],
+            'email' => ['required','email','max:255',Rule::unique('users','email')->ignore($user->id)],
+        ]);
+
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+        ]);
+
+        return response()->json([
+            'message' => 'Profile updated successfully.',
+            'user' => $user,
+        ],200);
     }
 
     public function logout(Request $request): JsonResponse {
