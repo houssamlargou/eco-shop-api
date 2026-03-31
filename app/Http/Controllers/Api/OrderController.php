@@ -23,6 +23,17 @@ class OrderController extends Controller
         ],200);
     }
 
+    public function indexAdmin(): JsonResponse {
+        $orders = Order::with('user')
+                 ->latest()
+                 ->get();
+        
+        return response()->json([
+            'message' => 'Admin order list retrieved successfully.',
+            'orders' => $orders,
+        ],200);       
+    }
+
     public function show(Request $request, Order $order): JsonResponse {
         $user = $request->user();
 
