@@ -23,6 +23,25 @@ class OrderController extends Controller
         ],200);
     }
 
+    public function show(Request $request, Order $order): JsonResponse {
+        $user = $request->user();
+
+        if($order->user_id !== $user->id){
+            return response()->json([
+                'message' => 'You are not allowed to view this order.',
+            ],403);
+        }
+
+        $order->load('items');
+
+        return response()->json([
+            'message' => 'Order details retrieved successfully.',
+            'order' => $order,
+        ], 200);
+
+     
+    }
+
     public function checkout(Request $request): JsonResponse {
         $user = $request->user();
 

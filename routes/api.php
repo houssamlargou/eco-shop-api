@@ -12,11 +12,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
-Route::get('/admin-test', function() {
-    return response()->json([
-        'message' => 'Welcome admin.',
-    ]);
-})->middleware(['auth:sanctum', 'admin']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store'])->middleware(['auth:sanctum','admin']);
 Route::put('/categories/{category}', [CategoryController::class, 'update'])->middleware(['auth:sanctum','admin']);
@@ -32,3 +27,4 @@ Route::put('/cart/items/{cartItem}',[CartController::class,'updateItemQuantity']
 Route::delete('/cart/items/{cartItem}',[CartController::class,'removeItem'])->middleware('auth:sanctum');
 Route::post('/checkout',[OrderController::class,'checkout'])->middleware('auth:sanctum');
 Route::get('/orders',[OrderController::class,'index'])->middleware('auth:sanctum'); 
+Route::get('/orders/{order}',[OrderController::class,'show'])->middleware('auth:sanctum');
