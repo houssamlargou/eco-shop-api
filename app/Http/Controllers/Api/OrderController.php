@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\User;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -59,6 +61,24 @@ class OrderController extends Controller
             'order' => $order,
         ], 200);
 
+    }
+
+    public function dashboardStats(): JsonResponse {
+        $totalUsers = User::count();
+        $totalProducts = Product::count();
+        $totalOrders = Order::count();
+        $totalRevenue = round((float)Order::sum('total'),2);
+        $pendingOrders = Order::where('status','pending')->count();
+        return response()->json([
+            'message' => 'Admin dashboard statistics retrieved successfully.',
+            'stats' => [
+                'total_user' => $totalUsers,
+                'total_products' => $totalProducts,
+                'total_orders' => $totalOrders,
+                'total_revenue' => $totalRevenue,
+                'pending_orders' => $pendingOrders,
+            ],
+        ],200);
     }
 
     public function updateStatus(Request $request, Order $order) {

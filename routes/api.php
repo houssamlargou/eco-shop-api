@@ -31,3 +31,4 @@ Route::get('/orders/{order}',[OrderController::class,'show'])->middleware('auth:
 Route::put('/orders/{order}/status',[OrderController::class,'updateStatus'])->middleware(['auth:sanctum','admin']);
 Route::get('/admin/orders',[OrderController::class,'indexAdmin'])->middleware(['auth:sanctum','admin']);
 Route::get('/admin/orders/{order}',[OrderController::class,'showAdmin'])->middleware(['auth:sanctum','admin']);
+Route::get('/admin/dashboard/stats',[OrderController::class,'dashboardStats'])->middleware(['auth:sanctum','admin']);
