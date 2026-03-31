@@ -34,6 +34,15 @@ class OrderController extends Controller
         ],200);       
     }
 
+    public function showAdmin(Order $order): JsonResponse {
+        $order->load(['user','items']);
+
+        return response()->json([
+            'message' => 'Admin order details retrieved successfully.',
+            'order' => $order,
+        ], 200);
+    }
+
     public function show(Request $request, Order $order): JsonResponse {
         $user = $request->user();
 
