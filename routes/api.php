@@ -28,3 +28,4 @@ Route::delete('/cart/items/{cartItem}',[CartController::class,'removeItem'])->mi
 Route::post('/checkout',[OrderController::class,'checkout'])->middleware('auth:sanctum');
 Route::get('/orders',[OrderController::class,'index'])->middleware('auth:sanctum'); 
 Route::get('/orders/{order}',[OrderController::class,'show'])->middleware('auth:sanctum');
+Route::put('/orders/{order}/status',[OrderController::class,'updateStatus'])->middleware(['auth:sanctum','admin']);
