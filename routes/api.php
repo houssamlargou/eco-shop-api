@@ -12,6 +12,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
+Route::put('/profile',[AuthController::class,'updateProfile'])->middleware('auth:sanctum');
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store'])->middleware(['auth:sanctum','admin']);
 Route::put('/categories/{category}', [CategoryController::class, 'update'])->middleware(['auth:sanctum','admin']);
